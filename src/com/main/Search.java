@@ -1,4 +1,4 @@
-package com;
+package com.main;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -48,19 +48,36 @@ public class Search {
         }
     }
 
-    // Return a specific verse
-    public static String specificVerse(String verse) {
-        return "Genesis 1:1: In the beginning God made the heavens and the earth.";
-    }
-
     // Return total amount of word occurrences
-    public static int wordOccurences(String word, String book) {
-        return 777;
+    public static String wordOccurrences(String word) {
+        int occurrences = 0;
+
+        String filePath = "res/kjv.txt";
+        List<String> lines = new ArrayList<>();
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
+            // Add each txt file line to separate index
+            bufferedReader.lines().forEach(lines::add);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (String line : lines) {
+            String[] words = line.split("\\s+");
+
+            for (String currentWord : words) {
+                if (currentWord.trim().replaceAll("[.,!?;:'\"]", "").equalsIgnoreCase(word.trim())) {
+                    occurrences += 1;
+                }
+            }
+        }
+
+        return Integer.toString(occurrences);
     }
 
     // Return total amount of phrase occurrences
-    public static int phraseOccurences(String phrase, String book) {
-        return 777;
+    public static String phraseOccurences(String phrase, String book) {
+        return "777";
     }
 
     // Return a random verse

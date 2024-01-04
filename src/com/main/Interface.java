@@ -1,6 +1,7 @@
-package com;
+package com.main;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -10,7 +11,6 @@ public class Interface {
     private static JPanel page2;
     private static JPanel page3;
     private static JPanel page4;
-    private static JPanel page5;
 
     // Initialize UI
     public static void build() {
@@ -19,11 +19,10 @@ public class Interface {
         ImageIcon icon = new ImageIcon("res/icon.png");
         frame.setIconImage(icon.getImage());
 
-        page1 = createPage("Chapter Lookup");
-        page2 = createPage("Verse Lookup");
+        page1 = createPage("Browse");
+        page2 = createPage("Random Verse");
         page3 = createPage("Word Occurrences");
         page4 = createPage("Phrase Occurrences");
-        page5 = createPage("Random Verse");
 
         showPage(page1);
 
@@ -33,12 +32,12 @@ public class Interface {
 
     // Return JPanel page for specified page name
     private static JPanel createPage(String pageName) {
-        if (pageName == "Chapter Lookup") {
+        if (pageName == "Browse") {
             // Chapter Lookup
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-            JLabel titleLabel = new JLabel("Chapter Lookup");
+            JLabel titleLabel = new JLabel("Browse");
             titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
             titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
             panel.add(titleLabel, BorderLayout.NORTH);
@@ -83,12 +82,12 @@ public class Interface {
             });
 
             return panel;
-        } else if (pageName == "Verse Lookup") {
-            // Verse Lookup
+        } else if (pageName == "Word Occurrences") {
+            // Word Occurrences
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-            JLabel titleLabel = new JLabel("Verse Lookup");
+            JLabel titleLabel = new JLabel("Word Occurrences");
             titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
             titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
             panel.add(titleLabel, BorderLayout.NORTH);
@@ -100,21 +99,21 @@ public class Interface {
             JButton searchBtn = new JButton("Search");
             panel.add(searchBtn);
 
-            JTextArea resultTextArea = new JTextArea("");
-            resultTextArea.setPreferredSize(new Dimension(1260, 600));
-            resultTextArea.setEditable(false);
-            resultTextArea.setFocusable(false);
-            JScrollPane scrollPane = new JScrollPane(resultTextArea);
+            JTextField resultText = new JTextField("");
+            resultText.setPreferredSize(new Dimension(1260, 25));
+            resultText.setEditable(false);
+            resultText.setFocusable(false);
+            JScrollPane scrollPane = new JScrollPane(resultText);
             panel.add(scrollPane, BorderLayout.CENTER);
 
             // Handle search button click
             searchBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String text = input.getText();
+                    String word = input.getText();
 
-                    if (!text.isEmpty()) {
-                        resultTextArea.setText(Search.specificVerse(text));
+                    if (!word.isEmpty()) {
+                        resultText.setText(Search.wordOccurrences(word));
                     }
                 }
             });
@@ -131,14 +130,6 @@ public class Interface {
                     input.setFocusable(true);
                 }
             });
-
-            return panel;
-        } else if (pageName == "Word Occurrences") {
-            JPanel panel = new JPanel();
-            panel.setLayout(new BorderLayout());
-
-            JLabel label = new JLabel(pageName, SwingConstants.CENTER);
-            panel.add(label, BorderLayout.CENTER);
 
             return panel;
         } else if (pageName == "Phrase Occurrences") {
@@ -196,7 +187,7 @@ public class Interface {
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
 
-        JButton page1Button = new JButton("Chapter Lookup");
+        JButton page1Button = new JButton("Browse");
         page1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,7 +195,7 @@ public class Interface {
             }
         });
 
-        JButton page2Button = new JButton("Verse Lookup");
+        JButton page2Button = new JButton("Random Verse");
         page2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -228,19 +219,10 @@ public class Interface {
             }
         });
 
-        JButton page5Button = new JButton("Random Verse");
-        page5Button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showPage(page5);
-            }
-        });
-
         buttonPanel.add(page1Button);
         buttonPanel.add(page2Button);
         buttonPanel.add(page3Button);
         buttonPanel.add(page4Button);
-        buttonPanel.add(page5Button);
 
         frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
 
